@@ -38,10 +38,6 @@ var vscode = __toESM(require("vscode"));
 
 // src/QuickFixProvider.ts
 var import_vscode = require("vscode");
-var FIXABLE_SEVERITIES = [
-  import_vscode.DiagnosticSeverity.Warning,
-  import_vscode.DiagnosticSeverity.Information
-];
 var createFixLine = (document, diagnostic) => {
   const line = document.lineAt(diagnostic.range.start.line);
   const disabledLine = line.text.includes(" // @ts-ignore ");

@@ -13,11 +13,6 @@ import {
     Position,
 } from "vscode";
 
-const FIXABLE_SEVERITIES = [
-  DiagnosticSeverity.Warning,
-  DiagnosticSeverity.Information,
-];
-
 const createFixLine = (
   document: TextDocument,
   diagnostic: Diagnostic
