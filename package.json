@@ -1,7 +1,8 @@
 {
-  "name": "ts-ignore-quick-fix",
-  "displayName": "ts-ignore Quick Fix",
-  "description": "test",
+  "name": "ts-ignore-ts-nocheck-quick-fix",
+  "displayName": "ts-ignore and ts-nocheck Quick Fix Options",
+  "description": "Add '// @ts-ignore' or '// @ts-nocheck' to typescript errors via the Quick Fix dialog",
+  "icon": "images/icon.png",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.92.0"
@@ -13,14 +14,6 @@
     "onLanguage:typescript"
   ],
   "main": "./dist/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "ts-ignore-quick-fix.helloWorld",
-        "title": "Hello World"
-      }
-    ]
-  },
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "npm run check-types && npm run lint && node esbuild.js",
