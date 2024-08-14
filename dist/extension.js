@@ -1,3 +1,110 @@
-"use strict";var l=Object.create;var r=Object.defineProperty;var x=Object.getOwnPropertyDescriptor;var C=Object.getOwnPropertyNames;var p=Object.getPrototypeOf,g=Object.prototype.hasOwnProperty;var A=(e,n)=>{for(var t in n)r(e,t,{get:n[t],enumerable:!0})},d=(e,n,t,c)=>{if(n&&typeof n=="object"||typeof n=="function")for(let o of C(n))!g.call(e,o)&&o!==t&&r(e,o,{get:()=>n[o],enumerable:!(c=x(n,o))||c.enumerable});return e};var f=(e,n,t)=>(t=e!=null?l(p(e)):{},d(n||!e||!e.__esModule?r(t,"default",{value:e,enumerable:!0}):t,e)),v=e=>d(r({},"__esModule",{value:!0}),e);var h={};A(h,{activate:()=>F,deactivate:()=>T});module.exports=v(h);var s=f(require("vscode"));var i=require("vscode"),m=(e,n)=>{let t=e.lineAt(n.range.start.line),c=t.text.includes(" // @ts-ignore "),o=new i.CodeAction("ts-ignore this line",i.CodeActionKind.QuickFix);return o.edit=new i.WorkspaceEdit,o.edit.insert(e.uri,new i.Position(t.lineNumber,0),c?",noUnusedLocals":`// @ts-ignore
-`),o},k=(e,n)=>{let t=new i.CodeAction("ts-nocheck this file",i.CodeActionKind.QuickFix);return t.edit=new i.WorkspaceEdit,t.edit.insert(n.uri,new i.Position(0,0),`// @ts-nocheck
-`),t},D=(e,n)=>n.flatMap(t=>{let c=typeof t.code=="object"?t.code.value:t.code;return c==null||c===""?[]:[m(e,t),k(c,e)]}),a=(e,n,t,c)=>{let o=t.diagnostics.filter(u=>u.source==="ts");return o.length>0?D(e,o):[]};function F(e){e.subscriptions.push(s.languages.registerCodeActionsProvider("typescript",{provideCodeActions:a},{providedCodeActionKinds:[s.CodeActionKind.QuickFix]}))}function T(){}0&&(module.exports={activate,deactivate});
+"use strict";
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/extension.ts
+var extension_exports = {};
+__export(extension_exports, {
+  activate: () => activate,
+  deactivate: () => deactivate
+});
+module.exports = __toCommonJS(extension_exports);
+var vscode = __toESM(require("vscode"));
+
+// src/QuickFixProvider.ts
+var import_vscode = require("vscode");
+var createFixLine = (document, diagnostic) => {
+  const line = document.lineAt(diagnostic.range.start.line);
+  const disabledLine = line.text.includes(" // @ts-ignore ");
+  const fix = new import_vscode.CodeAction(
+    `ts-ignore this line`,
+    import_vscode.CodeActionKind.QuickFix
+  );
+  fix.edit = new import_vscode.WorkspaceEdit();
+  fix.edit.insert(
+    document.uri,
+    new import_vscode.Position(line.lineNumber, 0),
+    disabledLine ? `,noUnusedLocals` : `// @ts-ignore
+`
+  );
+  return fix;
+};
+var createFixFile = (code, document) => {
+  const fix = new import_vscode.CodeAction(
+    `ts-nocheck this file`,
+    import_vscode.CodeActionKind.QuickFix
+  );
+  fix.edit = new import_vscode.WorkspaceEdit();
+  fix.edit.insert(
+    document.uri,
+    new import_vscode.Position(0, 0),
+    `// @ts-nocheck
+`
+  );
+  return fix;
+};
+var createFix = (document, diagnostics) => {
+  return diagnostics.flatMap((diagnostic) => {
+    const code = typeof diagnostic.code === "object" ? diagnostic.code.value : diagnostic.code;
+    if (code === null || code === void 0 || code === "") {
+      return [];
+    } else {
+      return [
+        createFixLine(document, diagnostic),
+        createFixFile(code, document)
+      ];
+    }
+  });
+};
+var provideCodeActions = (document, range, context, token) => {
+  const diagnostics = context.diagnostics.filter(
+    (diagnostic) => diagnostic.source === "ts"
+  );
+  return diagnostics.length > 0 ? createFix(document, diagnostics) : [];
+};
+
+// src/extension.ts
+function activate(context) {
+  context.subscriptions.push(
+    vscode.languages.registerCodeActionsProvider(
+      "typescript",
+      { provideCodeActions },
+      {
+        providedCodeActionKinds: [vscode.CodeActionKind.QuickFix]
+      }
+    )
+  );
+}
+function deactivate() {
+}
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  activate,
+  deactivate
+});
+//# sourceMappingURL=extension.js.map

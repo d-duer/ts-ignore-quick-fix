@@ -49,5 +49,6 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/d-duer/ts-ignore-quick-fix"
-  }
+  },
+  "publisher": "dduer"
 }
