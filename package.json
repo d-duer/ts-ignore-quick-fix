@@ -3,7 +3,7 @@
   "displayName": "ts-ignore and ts-nocheck Quick Fix Options",
   "description": "Add '// @ts-ignore' or '// @ts-nocheck' to typescript errors via the Quick Fix dialog",
   "icon": "icon.png",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.92.0"
   },
