@@ -14,6 +14,26 @@
     "onLanguage:typescript"
   ],
   "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "ts-ignore Quick Fix",
+      "properties": {
+        "ts-ignore-quick-fix.ignoreOrExpect": {
+          "type": "string",
+          "enum": [
+            "ts-ignore",
+            "ts-expect-error"
+          ],
+          "enumDescriptions": [
+            "Insert `// @ts-ignore` above the line",
+            "Insert `// @ts-expect-error` above the line"
+          ],
+          "default": "ts-ignore",
+          "markdownDescription": "Directive inserted by the line-level Quick Fix."
+        }
+      }
+    }
+  },
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "npm run check-types && npm run lint && node esbuild.js",

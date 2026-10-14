@@ -12,23 +12,26 @@ import {
     WorkspaceEdit,
     Position,
 } from "vscode";
+import { ConfigId, Configs, getConfig } from "./config";
 
 const createFixLine = (
   document: TextDocument,
   diagnostic: Diagnostic
 ): CodeAction => {
   const line = document.lineAt(diagnostic.range.start.line);
-  const disabledLine = line.text.includes(" // @ts-ignore ");
+  const directive =
+    getConfig<Configs[ConfigId.IgnoreOrExpect]>(ConfigId.IgnoreOrExpect) ??
+    "ts-ignore";
 
   const fix = new CodeAction(
-    `ts-ignore this line`,
+    `${directive} this line`,
     CodeActionKind.QuickFix
   );
   fix.edit = new WorkspaceEdit();
   fix.edit.insert(
     document.uri,
     new Position(line.lineNumber, 0),
-    disabledLine ? `,noUnusedLocals` : `// @ts-ignore\n`
+    `// @${directive}\n`
   );
   return fix;
 };
